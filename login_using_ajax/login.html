@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <link href="login_style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        function do_login() {
+            var email = $("#emailid").val();
+            var password = $("#password").val();
+            if (email != "" && password != "") {
+                $("#loading_spinner2").css({ "display": "none" });
+
+                $("#loading_spinner").css({ "display": "block" });
+                $.ajax
+                    ({
+                        type: 'post',
+                        url: 'do_login.php',
+                        data: {
+                            do_login: "do_login",
+                            email: email,
+                            password: password
+                        },
+                        success: function (response) {
+                            if (response == 1) {
+                                alert(response);
+                                window.location.href = "index.php";
+                            }else {
+                                alert(response);
+                                $("#loading_spinner").css({ "display": "none" });
+                                $("#loading_spinner2").css({ "display": "block" });
+                                $("#loading_spinner2").html("Wrong Details");
+                            }
+                        }
+                    });
+            }
+
+            else {
+                alert("Please Fill All The Details");
+            }
+
+            return false;
+        }   
+    </script>   
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <div id="login_form">
+            <h1>LOGIN FORM</h1>
+            <p id="login_label">Enter your Email or User_Name  And your Password </p>
+            <form method="post" action="do_login.php" onsubmit="return do_login();">
+                <input type="text" name="emailid" id="emailid" placeholder="Enter Email/User">
+                <br>
+                <input type="password" name="password" id="password" placeholder="***********">
+                <br>
+                <input type="submit" name="login" value="DO LOGIN" id="login_button">
+            </form>
+            <p id="loading_spinner"><img src="img/ajax-loader.gif"></p>
+            <p id="loading_spinner2"></p>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
